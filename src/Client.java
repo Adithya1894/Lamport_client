@@ -1,6 +1,8 @@
 import java.io.*;
 import java.net.Socket;
 import java.util.Random;
+import java.util.concurrent.CountDownLatch;
+
 
 /**
  * Client Class is used to perform all the client side actions
@@ -23,6 +25,8 @@ public class Client {
     private static InputStream is_obj;
     private static InputStreamReader isr_obj;
     private static BufferedReader br_obj;
+    Thread t;
+
 
 
     /**
@@ -49,8 +53,9 @@ public class Client {
     /**
      * internal_event method is used to perform some internal event within the client. I am implementing a simple clock increment
      */
-    public void internal_event(){
+    public void internal_event() throws InterruptedException {
         logical_clock = logical_clock + 1;
+        t.sleep(10000);
         System.out.println("Internal Event Clock:" +logical_clock);
         //encrypt(logical_clock);
     }
@@ -120,7 +125,7 @@ public class Client {
 
     }
 
-    public static void main(String args[]){
+    public static void main(String args[]) throws InterruptedException {
         //Scanner sc = new Scanner(System.in);
         //System.out.println("Enter the Ip Address of the Server where you want the Client to connect to: ");
         //ip = sc.next();
@@ -135,8 +140,11 @@ public class Client {
             // br_obj = new BufferedReader(new InputStreamReader(socket_obj.getInputStream()));
 
             Client Client_obj = new Client();
-            int number = 0;
-            while(true) {
+            //int number = 0;
+            CountDownLatch latch = new CountDownLatch(15000);
+            //latch.await();
+            int l = 0;
+            while(l < 150) {
                 if (true)
                 {
                     Random r_obj = new Random();
@@ -156,7 +164,7 @@ public class Client {
                     }
 
                 }
-                else {
+                /*else {
                     try {
                         System.out.println("I am executing");
                         os_obj = socket_obj.getOutputStream();
@@ -171,8 +179,8 @@ public class Client {
                         e.printStackTrace();
                     }
 
-                }
-                number++;
+                }*/
+                l++;
             }
             //System.out.println(logical_clock);
             //System.out.println("hello");
