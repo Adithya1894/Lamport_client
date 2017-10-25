@@ -58,7 +58,7 @@ public class Client {
      */
     public void internal_event() throws InterruptedException {
         logical_clock = logical_clock + 1;
-        t.sleep(1000);
+        t.sleep(100);
        // System.out.println("Internal Event Clock:" +logical_clock);
         //encrypt(logical_clock);
     }
@@ -108,12 +108,13 @@ public class Client {
      */
     public int decrypt(){
         int message = 0;
-
+        int num = 0;
         try {
 
             if(br_obj.ready())
             {
                 message = br_obj.read();
+                //num = Integer.parseInt(message);
                 System.out.println(message);
             }
 
@@ -124,7 +125,7 @@ public class Client {
         {
             e.printStackTrace();
         }
-        return message;
+        return num;
 
 
     }
@@ -148,7 +149,7 @@ public class Client {
             CountDownLatch latch = new CountDownLatch(15000);
             //latch.await();
             int l = 0;
-            while(l < 150) {
+            while(l < 15000) {
                 if (true)
                 {
                     Random r_obj = new Random();
