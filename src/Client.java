@@ -22,9 +22,11 @@ public class Client {
     /**
      * static variables for receiving the messages from the server
      */
-    private static InputStream is_obj;
-    private static InputStreamReader isr_obj;
-    private static BufferedReader br_obj;
+    private static BufferedReader br_obj = null;
+    //private static InputStream is_obj;
+    //private static InputStreamReader isr_obj;
+   // private static InputStream is = null;
+
     Thread t;
 
 
@@ -34,7 +36,7 @@ public class Client {
      */
     public void send_message(){
         logical_clock++;
-        System.out.println("Send Message Clock:" +logical_clock);
+        //System.out.println("Send Message Clock:" +logical_clock);
         encrypt(logical_clock);
 
     }
@@ -45,9 +47,10 @@ public class Client {
      */
     public  void receive_message(){
         logical_clock++;
+        int receive = 0;
 
-        decrypt();
-        System.out.println("Receive Message Clock:" +logical_clock);
+         decrypt();
+        //System.out.println("Receive Message Clock:" +(receive+logical_clock));
     }
 
     /**
@@ -55,8 +58,8 @@ public class Client {
      */
     public void internal_event() throws InterruptedException {
         logical_clock = logical_clock + 1;
-        t.sleep(10000);
-        System.out.println("Internal Event Clock:" +logical_clock);
+        t.sleep(1000);
+       // System.out.println("Internal Event Clock:" +logical_clock);
         //encrypt(logical_clock);
     }
 
@@ -67,7 +70,7 @@ public class Client {
     public void byzantine_failure(){
         //logical_clock = logical_clock + 100;
             logical_clock++;
-        System.out.println("Byzantine Clock:" +logical_clock);
+        //System.out.println("Byzantine Clock:" +logical_clock);
         encrypt(logical_clock);
         //return logical_clock;
     }
@@ -104,14 +107,15 @@ public class Client {
      * @return
      */
     public int decrypt(){
-        int message = 10;
+        int message = 0;
 
         try {
-            is_obj = socket_obj.getInputStream();
-            isr_obj = new InputStreamReader(is_obj);
-            br_obj = new BufferedReader(isr_obj);
 
-            //message = br_obj.read();
+            if(br_obj.ready())
+            {
+                message = br_obj.read();
+                System.out.println(message);
+            }
 
             //System.out.println("Proper Clock value received from Server is: " +message);
             //return message/10;
@@ -120,12 +124,12 @@ public class Client {
         {
             e.printStackTrace();
         }
-        return message/10;
+        return message;
 
 
     }
 
-    public static void main(String args[]) throws InterruptedException {
+    public static void main(String args[]) throws InterruptedException, NullPointerException{
         //Scanner sc = new Scanner(System.in);
         //System.out.println("Enter the Ip Address of the Server where you want the Client to connect to: ");
         //ip = sc.next();
@@ -164,6 +168,11 @@ public class Client {
                     }
 
                 }
+
+                br_obj = new BufferedReader(new InputStreamReader(socket_obj.getInputStream(), "ISO-8859-1"));
+                //is = socket_obj.getInputStream();
+
+
                 /*else {
                     try {
                         System.out.println("I am executing");
@@ -191,6 +200,7 @@ public class Client {
         } catch (IOException e) {
             e.printStackTrace();
         }
+
 
 
 
