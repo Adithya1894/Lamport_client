@@ -23,9 +23,10 @@ public class Client {
      * static variables for receiving the messages from the server
      */
     private static BufferedReader br_obj = null;
+    private static DataInputStream din = null;
     //private static InputStream is_obj;
     //private static InputStreamReader isr_obj;
-   // private static InputStream is = null;
+    // private static InputStream is = null;
 
     Thread t;
 
@@ -49,7 +50,7 @@ public class Client {
         logical_clock++;
         int receive = 0;
 
-         decrypt();
+        decrypt();
         //System.out.println("Receive Message Clock:" +(receive+logical_clock));
     }
 
@@ -59,7 +60,7 @@ public class Client {
     public void internal_event() throws InterruptedException {
         logical_clock = logical_clock + 1;
         t.sleep(100);
-       // System.out.println("Internal Event Clock:" +logical_clock);
+        // System.out.println("Internal Event Clock:" +logical_clock);
         //encrypt(logical_clock);
     }
 
@@ -69,7 +70,7 @@ public class Client {
      */
     public void byzantine_failure(){
         //logical_clock = logical_clock + 100;
-            logical_clock++;
+        logical_clock++;
         //System.out.println("Byzantine Clock:" +logical_clock);
         encrypt(logical_clock);
         //return logical_clock;
@@ -107,15 +108,16 @@ public class Client {
      * @return
      */
     public int decrypt(){
-        int message = 0;
-        int num = 0;
+        String message;
+        int number = 0;
+
         try {
 
             if(br_obj.ready())
             {
-                message = br_obj.read();
-                //num = Integer.parseInt(message);
-                System.out.println(message);
+                message = br_obj.readLine();
+                number = Integer.parseInt(message) *10;
+                System.out.println(number);
             }
 
             //System.out.println("Proper Clock value received from Server is: " +message);
@@ -125,7 +127,7 @@ public class Client {
         {
             e.printStackTrace();
         }
-        return num;
+        return number;
 
 
     }
@@ -169,7 +171,9 @@ public class Client {
                     }
 
                 }
-
+                //din = new DataInputStream(socket_obj.getInputStream());
+                //Client_obj.send_message();
+                //Client_obj.receive_message();
                 br_obj = new BufferedReader(new InputStreamReader(socket_obj.getInputStream(), "ISO-8859-1"));
                 //is = socket_obj.getInputStream();
 
