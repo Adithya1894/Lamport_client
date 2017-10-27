@@ -149,7 +149,7 @@ public class Client {
             CountDownLatch latch = new CountDownLatch(15000);
             //latch.await();
             int l = 0;
-            while(l < 15000) {
+            while(l < 20000) {
                 if (true)
                 {
                     Random r_obj = new Random();
