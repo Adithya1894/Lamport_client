@@ -3,7 +3,6 @@ import java.net.Socket;
 import java.util.Random;
 import java.util.concurrent.CountDownLatch;
 
-
 /**
  * Client Class is used to perform all the client side actions
  */
@@ -47,11 +46,10 @@ public class Client {
      * receive_message Method is used to receive the data from the server
      */
     public  void receive_message(){
-        logical_clock++;
         int receive = 0;
 
-        decrypt();
-        //System.out.println("Receive Message Clock:" +(receive+logical_clock));
+        logical_clock = logical_clock + decrypt() + 1;
+        System.out.println("Receive Message Clock:" +logical_clock);
     }
 
     /**
@@ -109,15 +107,15 @@ public class Client {
      */
     public int decrypt(){
         String message;
-        int number = 0;
+        int offser_number_t = 0;
 
         try {
 
             if(br_obj.ready())
             {
                 message = br_obj.readLine();
-                number = Integer.parseInt(message) *10;
-                System.out.println(number);
+                offser_number_t = Integer.parseInt(message);
+                //System.out.println(offser_number_t);
             }
 
             //System.out.println("Proper Clock value received from Server is: " +message);
@@ -127,7 +125,7 @@ public class Client {
         {
             e.printStackTrace();
         }
-        return number;
+        return offser_number_t;
 
 
     }
