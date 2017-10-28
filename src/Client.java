@@ -10,7 +10,7 @@ public class Client {
     private static int logical_clock = 0;
     private int berkely_clock_offset = 0;
     private static int port_number = 8423;
-    private static String ip = "localhost";
+    private static String ip = "10.234.136.55";
     private static Socket socket_obj;
     /**
      * static variables for outputStream or sending the messages to the server
@@ -67,7 +67,7 @@ public class Client {
      * @return
      */
     public void byzantine_failure(){
-        //logical_clock = logical_clock + 100;
+        logical_clock = logical_clock + 100;
         logical_clock++;
         //System.out.println("Byzantine Clock:" +logical_clock);
         encrypt(logical_clock);
@@ -130,13 +130,15 @@ public class Client {
 
     }
 
+    /**
+     * Main Method of the client class. This method has all the functionality required for the
+     * programm to run properly, I am using a Random number generator to get the random values
+     * as probabilities and call different methods in the process based on probability
+     * @param args
+     * @throws InterruptedException
+     * @throws NullPointerException
+     */
     public static void main(String args[]) throws InterruptedException, NullPointerException{
-        //Scanner sc = new Scanner(System.in);
-        //System.out.println("Enter the Ip Address of the Server where you want the Client to connect to: ");
-        //ip = sc.next();
-        //System.out.println("Enter the port number of the Server!");
-        //port_number = sc.nextInt();
-
 
         try {
             socket_obj = new Socket(ip, port_number);
@@ -149,6 +151,7 @@ public class Client {
             CountDownLatch latch = new CountDownLatch(15000);
             //latch.await();
             int l = 0;
+
             while(l < 20000) {
                 if (true)
                 {
@@ -176,22 +179,6 @@ public class Client {
                 //is = socket_obj.getInputStream();
 
 
-                /*else {
-                    try {
-                        System.out.println("I am executing");
-                        os_obj = socket_obj.getOutputStream();
-                        osw_obj = new OutputStreamWriter(os_obj);
-                        bw_obj = new BufferedWriter(osw_obj);
-
-                        int message = 0;
-                        bw_obj.write(message);
-                        bw_obj.flush();
-
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-
-                }*/
                 l++;
             }
             //System.out.println(logical_clock);
@@ -203,13 +190,20 @@ public class Client {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-
-
-
         /**
-         * object for the Client class
+         * Closing the connection once the program is done executing
          */
+        finally {
+            try {
+                socket_obj.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+
+
+
 
     }
 
