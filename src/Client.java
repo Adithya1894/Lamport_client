@@ -10,7 +10,7 @@ public class Client {
     private static int logical_clock = 0;
     private int berkely_clock_offset = 0;
     private static int port_number = 8423;
-    private static String ip = "10.234.136.55";
+    private static String ip = "localhost";
     private static Socket socket_obj;
     /**
      * static variables for outputStream or sending the messages to the server
@@ -67,7 +67,7 @@ public class Client {
      * @return
      */
     public void byzantine_failure(){
-        logical_clock = logical_clock + 100;
+        logical_clock = logical_clock + 3;
         logical_clock++;
         //System.out.println("Byzantine Clock:" +logical_clock);
         encrypt(logical_clock);
@@ -85,7 +85,8 @@ public class Client {
             osw_obj = new OutputStreamWriter(os_obj);
             bw_obj = new BufferedWriter(osw_obj);
 
-            int message = clock;
+            //int message = clock;
+            String message = Integer.toString(clock) + "\n";
             bw_obj.write(message);
             bw_obj.flush();
 
@@ -152,7 +153,7 @@ public class Client {
             //latch.await();
             int l = 0;
 
-            while(l < 20000) {
+            while(l < 10000) {
                 if (true)
                 {
                     Random r_obj = new Random();
