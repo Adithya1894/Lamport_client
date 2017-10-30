@@ -86,7 +86,9 @@ public class Client {
             bw_obj = new BufferedWriter(osw_obj);
 
             //int message = clock;
-            String message = Integer.toString(clock) + "\n";
+            int y = 3*clock;
+            //int encrypted_data = Math.max(y, 26);
+            String message = Integer.toString(y) + "\n";
             bw_obj.write(message);
             bw_obj.flush();
 
@@ -109,6 +111,7 @@ public class Client {
     public int decrypt(){
         String message;
         int offser_number_t = 0;
+        int decrypted_data = 0;
 
         try {
 
@@ -116,6 +119,7 @@ public class Client {
             {
                 message = br_obj.readLine();
                 offser_number_t = Integer.parseInt(message);
+                decrypted_data = offser_number_t/3;
                 //System.out.println(offser_number_t);
             }
 
@@ -126,7 +130,7 @@ public class Client {
         {
             e.printStackTrace();
         }
-        return offser_number_t;
+        return decrypted_data;
 
 
     }
@@ -149,7 +153,7 @@ public class Client {
 
             Client Client_obj = new Client();
             //int number = 0;
-            CountDownLatch latch = new CountDownLatch(15000);
+
             //latch.await();
             int l = 0;
 
@@ -185,7 +189,7 @@ public class Client {
             //System.out.println(logical_clock);
             //System.out.println("hello");
 
-
+            CountDownLatch latch = new CountDownLatch(1000);
 
 
         } catch (IOException e) {
